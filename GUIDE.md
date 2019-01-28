@@ -164,7 +164,8 @@ Get the Current running Containers
 ```
 Docker PS 
 ```
-Once you have the contaner id of the API server run the following to kill off the first container which will allow the build to proceed
+Once you have the contaner id of the API server run the following to kill off the first container which will allow the build to proceed.
+What will happen is after the first API server is killed off a new one will be spun up and work correctly.
 
 ```
 Docker kill <containerid>
