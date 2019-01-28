@@ -1,4 +1,4 @@
-# Kubernetes on (vanilla) Raspbian Lite
+# Kubernetes on (vanilla) Raspbian Lite or Hyperiot 10.0RC2
 
 Yes - you can create a Kubernetes cluster with Raspberry Pis with the default operating system called Raspbian. This means you can carry on using all the tools and packages you're used to with the officially-supported OS.
 
@@ -130,7 +130,7 @@ $ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key a
 $ sudo kubeadm config images pull -v3
 ```
 
-If using Weave Net
+Using Weave Net(I Recommend this as i ran into alot of issues with Testing with the kuberneties Dashboard on flannel)
 
 * Initialize your master node:
 
@@ -152,12 +152,24 @@ We pass in `--token-ttl=0` so that the token never expires - do not use this set
 
 Note: This step can take a long time, even up to 15 minutes.
 
-Sometimes this stage can fail, if it does then you should patch the API Server to allow for a higher failure threshold during initialization around the time you see `[controlplane] wrote Static Pod manifest for component kube-apiserver to "/etc/kubernetes/manifests/kube-apiserver.yaml"`
+This Step Always fails on Raspberry PI 3B+ You should patch the API Server And Kill of the first running container to allow the process to continue around the time you see `[controlplane] wrote Static Pod manifest for component kube-apiserver to "/etc/kubernetes/manifests/kube-apiserver.yaml"`
+
+on a Seperare SSH session to the master node run the below
 
 ```
 sudo sed -i 's/failureThreshold: 8/failureThreshold: 20/g' /etc/kubernetes/manifests/kube-apiserver.yaml && \
 sudo sed -i 's/initialDelaySeconds: [0-9]\+/initialDelaySeconds: 360/' /etc/kubernetes/manifests/kube-apiserver.yaml
 ```
+Get the Current running Containers 
+```
+Docker PS 
+```
+Once you have the contaner id of the API server run the following to kill off the first container which will allow the build to proceed
+
+```
+Docker kill <containerid>
+```
+
 
 After the `init` is complete run the snippet given to you on the command-line:
 
