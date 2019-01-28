@@ -1,4 +1,4 @@
-# Kubernetes on (vanilla) Raspbian Lite or Hyperiot 10.0RC2
+# Kubernetes on (vanilla) Raspbian Lite or Hypriot 1.10.0-rc2
 
 Yes - you can create a Kubernetes cluster with Raspberry Pis with the default operating system called Raspbian. This means you can carry on using all the tools and packages you're used to with the officially-supported OS.
 
